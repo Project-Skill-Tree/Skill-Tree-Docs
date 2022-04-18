@@ -1,10 +1,8 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Source: objects/skill.js | Source: objects/skill.js</title>
+    <title>Module: APIHelper | Module: APIHelper</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -28,7 +26,7 @@
         
     </div>
     <div class="title">
-        <h1><a href="index.html" class="link">Source: objects/skill.js</a></h1>
+        <h1><a href="index.html" class="link">Module: APIHelper</a></h1>
         
     </div>
     <div class="search-container" id="search-container">
@@ -45,97 +43,570 @@
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>const {MessageEmbed, MessageAttachment} = require("discord.js");
-const Swipeable = require("./swipeable");
-const {getBadgeIcon} = require("./badge");
-const formatFrequency = require("../modules/frequencyFormatter.js");
+        <h2>APIHelper</h2>
+        
+            
+        
+            
+        
+    
+</header>
 
-/**
- * Skill Object used for storing templates for skills in the tree.
- * @implements Swipeable - Can be cycled to display multiple skills
- */
-class Skill extends Swipeable {
-  /**
-   * Skill constructor
-   * @constructor
-   * @param {string} iconPath - image path for the icon to be displayed, relative to "/icons/" folder
-   * @param {string} title - Skill title (READING)
-   * @param {number} level - Skill level (3)
-   * @param {string} goal - The success condition for the skill to be complete
-   * @param {string} interval - The time interval of the skill. If a skill was to be done x times weekly, weekly would be the interval. Valid values would be "day", "week", "month", "year", etc.
-   * @param {number} timelimit - The number of days for which you need to maintain the skill before acquiring it
-   * @param {number} frequency - The frequency at which the task of the skill must be completed. Say you have to do x thing 3 times a week, 3 would be the frequency, and weekly would be the time interval.
-   * @param {number} xp - The amount of XP granted upon completion of the skill
-   */
-  constructor(iconPath, title, level, goal, interval, timelimit, frequency, xp) {
-    super();
-    this.iconPath = iconPath;
-    this.title = title;
-    this.level = level;
-    this.goal = goal;
-    this.interval = interval;
-    this.timelimit = timelimit;
-    this.frequency = frequency;
-    this.xp = xp;
-  }
+<article>
+    
+        <div class="container-overview">
+        
+            
+                <div class="description"><p>Get JSON object containing skills from database</p></div>
+            
 
-  /**
-   * Sends an embedded skill in the chat
-   * @param channel - channel to send the message in
-   */
-  async send(channel) {
-    //Create embedded messages
-    const data = await this.update(new MessageEmbed());
+            
+                
 
-    return channel.send({embeds: data[0], files: data[1]});
-  }
+<dt>
+    
+</dt>
+<dd>
 
-  /**
-   * Updates properties of embed with values from this class
-   * @param embed - embedded message to update
-   * @returns data - [embed, files]
-   */
-  async update(embed) {
-    const badgeIcon = await getBadgeIcon(this.iconPath,"advanced.png",  this.level);
-    const badgeFile = new MessageAttachment(badgeIcon, "badge.png");
+    
 
-    embed.setColor("#7d005d");
-    embed.setTitle(this.title);
-    embed.setThumbnail("attachment://badge.png");
-    embed.setFields(
-      {
-        name: "GOAL: ",
-        value: codeBlock(`${this.goal} (${formatFrequency(this.frequency, this.interval)})`),
-      },
-      {
-        name: "TIME: ",
-        value: codeBlock(`${this.timelimit} days`),
-      },
-      {
-        name: "XP: ",
-        value: codeBlock("diff\n" + `+ ${this.xp}XP`),
-      }
-    );
+    
 
-    embed.setTimestamp();
+    
 
-    const embeds = [embed];
-    const files = [badgeFile];
-    return [embeds, files];
-  }
-}
+    
 
-function codeBlock(str) {
-  return "```" + str + "```";
-}
+    
 
-module.exports = Skill;
-</code></pre>
-        </article>
-    </section>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">Promise.&lt;AxiosResponse.&lt;any>></span>
+
+
+
+
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+</dt>
+<dd>
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The ObjectID of the skill to be requested</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">Promise.&lt;AxiosResponse.&lt;any>></span>
+
+
+
+
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+        
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>APIHelper</h2>
+        
+            
+        
+            
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+                <div class="description"><p>Get the JSON object for a skill with a given id from the database</p></div>
+            
+
+            
+                
+
+<dt>
+    
+</dt>
+<dd>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">Promise.&lt;AxiosResponse.&lt;any>></span>
+
+
+
+
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+</dt>
+<dd>
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The ObjectID of the skill to be requested</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">Promise.&lt;AxiosResponse.&lt;any>></span>
+
+
+
+
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+        
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
@@ -152,7 +623,7 @@ module.exports = Skill;
 <script src="scripts/linenumber.js"></script>
 
     <script>
-        var id = '_sub'.replace(/"/g, '_');
+        var id = 'module:APIHelper_sub'.replace(/"/g, '_');
         var selectedApi = document.getElementById(id); // do not use jquery selector
         var $selectedApi = $(selectedApi);
 

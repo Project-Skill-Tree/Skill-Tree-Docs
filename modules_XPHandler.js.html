@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Source: objects/skill.js | Source: objects/skill.js</title>
+    <title>Source: modules/XPHandler.js | Source: modules/XPHandler.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -28,7 +28,7 @@
         
     </div>
     <div class="title">
-        <h1><a href="index.html" class="link">Source: objects/skill.js</a></h1>
+        <h1><a href="index.html" class="link">Source: modules/XPHandler.js</a></h1>
         
     </div>
     <div class="search-container" id="search-container">
@@ -48,92 +48,79 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const {MessageEmbed, MessageAttachment} = require("discord.js");
-const Swipeable = require("./swipeable");
-const {getBadgeIcon} = require("./badge");
-const formatFrequency = require("../modules/frequencyFormatter.js");
+            <pre class="prettyprint source linenums"><code>const Rank = require("../objects/rank");
+
+const ranks = [
+  new Rank("Acolyte",-Number.MAX_VALUE,"rgb(52,152,219)", "acolyte.png"),
+  new Rank("Spartan",5,"rgb(255, 100, 69)", "red_spartan.png"),
+  new Rank("Disciple",8,"rgb(75, 252, 252)", "disciple.png"),
+  new Rank("Warrior",14,"rgb(255,207,40)", "spartan.png"),
+  new Rank("Adonis",20,"rgb(161, 105, 231)", "purple_adonis.png"),
+  new Rank("Maximus",28,"rgb(33,255,177)", "maximus.png"),
+  new Rank("Gold Adonis",35,"rgb(255,198,7)", "gold_adonis.png"),
+  new Rank("Overseer",50,"rgb(253,84, 191)", "overseer.png"),
+];
 
 /**
- * Skill Object used for storing templates for skills in the tree.
- * @implements Swipeable - Can be cycled to display multiple skills
+ * Calculate the required XP to level up given the user's level
+ * @param {number} level - Current level of the user
+ * @returns {number} - XP required to level up
+ * @module XPHandler
  */
-class Skill extends Swipeable {
-  /**
-   * Skill constructor
-   * @constructor
-   * @param {string} iconPath - image path for the icon to be displayed, relative to "/icons/" folder
-   * @param {string} title - Skill title (READING)
-   * @param {number} level - Skill level (3)
-   * @param {string} goal - The success condition for the skill to be complete
-   * @param {string} interval - The time interval of the skill. If a skill was to be done x times weekly, weekly would be the interval. Valid values would be "day", "week", "month", "year", etc.
-   * @param {number} timelimit - The number of days for which you need to maintain the skill before acquiring it
-   * @param {number} frequency - The frequency at which the task of the skill must be completed. Say you have to do x thing 3 times a week, 3 would be the frequency, and weekly would be the time interval.
-   * @param {number} xp - The amount of XP granted upon completion of the skill
-   */
-  constructor(iconPath, title, level, goal, interval, timelimit, frequency, xp) {
-    super();
-    this.iconPath = iconPath;
-    this.title = title;
-    this.level = level;
-    this.goal = goal;
-    this.interval = interval;
-    this.timelimit = timelimit;
-    this.frequency = frequency;
-    this.xp = xp;
+exports.calcXP = function(level) {
+  return 50 * (1.02^level);
+};
+
+/**
+ * Calculate the total XP of a player given their level and current XP
+ * @param {number} level - Current level of the user
+ * @param {number} xp - Current xp
+ * @returns {number} - Total XP from level 0
+ * @module XPHandler
+ */
+exports.calcTotalXP = function(level, xp) {
+  let sum = 0;
+  for (let i = 0; i &lt; level; i++) {
+    sum += this.calcXP(i);
   }
+  sum += xp;
+  return sum;
+};
 
-  /**
-   * Sends an embedded skill in the chat
-   * @param channel - channel to send the message in
-   */
-  async send(channel) {
-    //Create embedded messages
-    const data = await this.update(new MessageEmbed());
-
-    return channel.send({embeds: data[0], files: data[1]});
+/**
+ * Return the rank object with all the rank data for a user of a given level
+ * @param {number} level - Current level of the user
+ * @return {Rank} Rank object for this level
+ * @module XPHandler
+ */
+exports.getRank = function(level) {
+  for (let i = ranks.length-1; i > 0; i--) {
+    if (level >= ranks[i].minLevel) {
+      return ranks[i];
+    }
   }
+  return ranks[0];
+};
 
-  /**
-   * Updates properties of embed with values from this class
-   * @param embed - embedded message to update
-   * @returns data - [embed, files]
-   */
-  async update(embed) {
-    const badgeIcon = await getBadgeIcon(this.iconPath,"advanced.png",  this.level);
-    const badgeFile = new MessageAttachment(badgeIcon, "badge.png");
+/**
+ * Get the rank colour from a user's level
+ * @param {number} level - Current level of the user
+ * @return {string} - Colour of the given rank
+ * @module XPHandler
+ */
+exports.getColor = function(level) {
+  return exports.getRank(level).color;
+};
 
-    embed.setColor("#7d005d");
-    embed.setTitle(this.title);
-    embed.setThumbnail("attachment://badge.png");
-    embed.setFields(
-      {
-        name: "GOAL: ",
-        value: codeBlock(`${this.goal} (${formatFrequency(this.frequency, this.interval)})`),
-      },
-      {
-        name: "TIME: ",
-        value: codeBlock(`${this.timelimit} days`),
-      },
-      {
-        name: "XP: ",
-        value: codeBlock("diff\n" + `+ ${this.xp}XP`),
-      }
-    );
-
-    embed.setTimestamp();
-
-    const embeds = [embed];
-    const files = [badgeFile];
-    return [embeds, files];
-  }
-}
-
-function codeBlock(str) {
-  return "```" + str + "```";
-}
-
-module.exports = Skill;
-</code></pre>
+/**
+ * Get the character icon path for a given user level
+ * @param {number} level - Current level of the user
+ * @returns {String} - Character image paht for the given rank
+ * @module XPHandler
+ */
+exports.getCharacter = function(level) {
+  return exports.getRank(level).character;
+};</code></pre>
         </article>
     </section>
 
