@@ -1,10 +1,8 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Source: modules/frequencyFormatter.js | Source: modules/frequencyFormatter.js</title>
+    <title>Interface: Swipeable | Interface: Swipeable</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -28,7 +26,7 @@
         
     </div>
     <div class="title">
-        <h1><a href="index.html" class="link">Source: modules/frequencyFormatter.js</a></h1>
+        <h1><a href="index.html" class="link">Interface: Swipeable</a></h1>
         
     </div>
     <div class="search-container" id="search-container">
@@ -45,62 +43,90 @@
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/** @module frequencyFormatter */
+        <h2>Swipeable</h2>
+        
+            <div class="class-description"><p>Swipeable interface used to allow objects to be cycled left/right in an embedded discord message.</p></div>
+        
+    
+</header>
 
-/**
- * Format the skill tracking frequency in a readable format (e.g. DAILY, WEEKLY, 2x/DAY, 5x/WEEK)
- * @param {number} frequency - number of times per interval
- * @param {string} interval - time interval for skills, e.g. day, week, month, year
- * @return {string}
- */
-exports.formatFrequency = function(frequency, interval) {
-  let timesString;
+<article>
+    
+        <div class="container-overview">
+        
+            
+                <div class="description"><p>Must define the <em>Uppdate</em> Method to update the discord embed</p></div>
+            
 
-  if (frequency > 1) {
-    switch (interval) {
-      case "day":
-        timesString = `${frequency}x/DAY`;
-        break;
-      
-      case "week":
-        timesString = `${frequency}x/WEEK`;
-        break;
+            
 
-      case "month":
-        timesString = `${frequency}x/MONTH`;
-        break;
 
-      case "year":
-        timesString = `${frequency}x/YEAR`;
-        break;
-    }
-  } else {
-    switch (interval) {
-      case "day":
-        timesString = "DAILY";
-        break;
-      
-      case "week":
-        timesString = "WEEKLY";
-        break;
+<dl class="details">
 
-      case "month":
-        timesString = "MONTHLY";
-        break;
+    
 
-      case "year":
-        timesString = "YEARLY";
-        break;
-    }
-  }
-  return timesString;
-};
-</code></pre>
-        </article>
-    </section>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+            
+        
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
@@ -117,7 +143,7 @@ exports.formatFrequency = function(frequency, interval) {
 <script src="scripts/linenumber.js"></script>
 
     <script>
-        var id = '_sub'.replace(/"/g, '_');
+        var id = 'Swipeable_sub'.replace(/"/g, '_');
         var selectedApi = document.getElementById(id); // do not use jquery selector
         var $selectedApi = $(selectedApi);
 
