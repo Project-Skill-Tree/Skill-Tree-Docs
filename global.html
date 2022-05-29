@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Class: Item | Class: Item</title>
+    <title>Global | Global</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -26,7 +26,7 @@
         
     </div>
     <div class="title">
-        <h1><a href="index.html" class="link">Class: Item</a></h1>
+        <h1><a href="index.html" class="link">Global</a></h1>
         
     </div>
     <div class="search-container" id="search-container">
@@ -48,256 +48,11 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>Item<span class="signature">(name, link, emoji<span class="signature-attributes">opt, nullable</span>)</span><span class="type-signature"></span></h2>
-        
-            <div class="class-description"><p>Item Object</p></div>
-        
+        <h2>Global</h2>
     
 </header>
 
 <article>
-    
-        <div class="container-overview">
-        
-            
-
-<dt>
-    
-        <h4 class="name" id="Item">
-            
-                new <span class="type-signature"></span>Item<span class="signature">(name, link, emoji<span class="signature-attributes">opt, nullable</span>)</span><span class="type-signature"></span>
-                
-            
-            <div class="container-source members">
-                <code><a href="objects_item.js.html">objects/item.js</a></code>,
-                <code><a href="objects_item.js.html#line9">line 9</a></code>
-            </div>
-            
-        </h4>
-
-        
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        <p>Create Item object</p>
-    </div>
-    
-
-    
-
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>Item name (e.g. GUIDE TO SELF IMPROVEMENT)</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>link</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>The link to the item resource</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>emoji</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                    &lt;nullable><br>
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    null
-                
-                </td>
-            
-
-            <td class="description last"><p>the emoiji to display with the item</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="implements">Implements:</dt>
-    <dd class="implements"><ul>
-        
-            <li>Swipeable - Can be cycled to display multiple items</li>
-        
-    </ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-</dd>
-
-        
-        </div>
     
 
     
@@ -322,14 +77,14 @@
 
 <dt>
     
-        <h4 class="name" id="send">
+        <h4 class="name" id="awaitReply">
             
-                <span class="type-signature"><span class="icon green">async</span> </span>send<span class="signature">(client, channel)</span><span class="type-signature"></span>
+                <span class="type-signature"><span class="icon green">async</span> </span>awaitReply<span class="signature">()</span><span class="type-signature"></span>
                 
             
             <div class="container-source members">
-                <code><a href="objects_item.js.html">objects/item.js</a></code>,
-                <code><a href="objects_item.js.html#line29">line 29</a></code>
+                <code><a href="modules_functions.js.html">modules/functions.js</a></code>,
+                <code><a href="modules_functions.js.html#line64">line 64</a></code>
             </div>
             
         </h4>
@@ -341,7 +96,12 @@
 
     
     <div class="description">
-        <p>Sends an embedded item in the chat</p>
+        <p>SINGLE-LINE AWAIT MESSAGE</p>
+<p>A simple way to grab a single reply, from the user that initiated
+the command. Useful to get &quot;precisions&quot; on certain things...</p>
+<p>USAGE</p>
+<p>const response = await awaitReply(msg, &quot;Favourite Color?&quot;);
+msg.reply(<code>Oh, I really love ${response} too!</code>);</p>
     </div>
     
 
@@ -351,69 +111,6 @@
 
     
 
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>client</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>channel</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    </div>
     
 
     
@@ -474,14 +171,14 @@
 
 <dt>
     
-        <h4 class="name" id="update">
+        <h4 class="name" id="getSettings">
             
-                <span class="type-signature"></span>update<span class="signature">(embed)</span><span class="type-signature"></span>
+                <span class="type-signature"></span>getSettings<span class="signature">()</span><span class="type-signature"></span>
                 
             
             <div class="container-source members">
-                <code><a href="objects_item.js.html">objects/item.js</a></code>,
-                <code><a href="objects_item.js.html#line40">line 40</a></code>
+                <code><a href="modules_functions.js.html">modules/functions.js</a></code>,
+                <code><a href="modules_functions.js.html#line43">line 43</a></code>
             </div>
             
         </h4>
@@ -493,60 +190,10 @@
 
     
     <div class="description">
-        <p>Updates properties of embed with values from this class</p>
-    </div>
-    
-
-    
-
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>embed</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>embed to update</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
+        <p>GUILD SETTINGS FUNCTION</p>
+<p>This function merges the default settings (from config.defaultSettings) with any
+guild override you might have for particular guild. If no overrides are present,
+the default settings are used.</p>
     </div>
     
 
@@ -561,21 +208,195 @@
     
 
     
-    <div class="container-returns">
-        <h5>Returns:</h5>
-        
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
                 
 
+<dt>
+    
+        <h4 class="name" id="permlevel">
+            
+                <span class="type-signature"></span>permlevel<span class="signature">()</span><span class="type-signature"></span>
+                
+            
+            <div class="container-source members">
+                <code><a href="modules_functions.js.html">modules/functions.js</a></code>,
+                <code><a href="modules_functions.js.html#line16">line 16</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>PERMISSION LEVEL FUNCTION</p>
+<p>This is a very basic permission system for commands which uses &quot;levels&quot;
+&quot;spaces&quot; are intentionally left black so you can add them if you want.
+NEVER GIVE ANYONE BUT OWNER THE LEVEL 10! By default this can run any
+command including the VERY DANGEROUS <code>eval</code> and <code>exec</code> commands!</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
 
 
+<dl class="details">
 
-- <p>embed - updated embed</p>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
 
 
+    
 
+</dd>
 
             
+                
+
+<dt>
+    
+        <h4 class="name" id="toProperCase">
+            
+                <span class="type-signature"></span>toProperCase<span class="signature">()</span><span class="type-signature"></span>
+                
+            
+            <div class="container-source members">
+                <code><a href="modules_functions.js.html">modules/functions.js</a></code>,
+                <code><a href="modules_functions.js.html#line80">line 80</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>MISCELLANEOUS NON-CRITICAL FUNCTIONS</p>
     </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
     
 
     
@@ -644,7 +465,7 @@
 <script src="scripts/linenumber.js"></script>
 
     <script>
-        var id = 'Item_sub'.replace(/"/g, '_');
+        var id = '_sub'.replace(/"/g, '_');
         var selectedApi = document.getElementById(id); // do not use jquery selector
         var $selectedApi = $(selectedApi);
 

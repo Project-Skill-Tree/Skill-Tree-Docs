@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Class: Item | Class: Item</title>
+    <title>Class: Page | Class: Page</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -26,7 +26,7 @@
         
     </div>
     <div class="title">
-        <h1><a href="index.html" class="link">Class: Item</a></h1>
+        <h1><a href="index.html" class="link">Class: Page</a></h1>
         
     </div>
     <div class="search-container" id="search-container">
@@ -48,9 +48,9 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>Item<span class="signature">(name, link, emoji<span class="signature-attributes">opt, nullable</span>)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>Page<span class="signature">(title, text, imagePath<span class="signature-attributes">opt, nullable</span>)</span><span class="type-signature"></span></h2>
         
-            <div class="class-description"><p>Item Object</p></div>
+            <div class="class-description"><p>Page object to save text and image information for swipeable displays</p></div>
         
     
 </header>
@@ -63,14 +63,14 @@
 
 <dt>
     
-        <h4 class="name" id="Item">
+        <h4 class="name" id="Page">
             
-                new <span class="type-signature"></span>Item<span class="signature">(name, link, emoji<span class="signature-attributes">opt, nullable</span>)</span><span class="type-signature"></span>
+                new <span class="type-signature"></span>Page<span class="signature">(title, text, imagePath<span class="signature-attributes">opt, nullable</span>)</span><span class="type-signature"></span>
                 
             
             <div class="container-source members">
-                <code><a href="objects_item.js.html">objects/item.js</a></code>,
-                <code><a href="objects_item.js.html#line9">line 9</a></code>
+                <code><a href="objects_page.js.html">objects/page.js</a></code>,
+                <code><a href="objects_page.js.html#line9">line 9</a></code>
             </div>
             
         </h4>
@@ -82,7 +82,7 @@
 
     
     <div class="description">
-        <p>Create Item object</p>
+        <p>Page constructor</p>
     </div>
     
 
@@ -122,7 +122,7 @@
 
         <tr>
             
-                <td class="name"><code>name</code></td>
+                <td class="name"><code>title</code></td>
             
 
             <td class="type">
@@ -150,14 +150,14 @@
                 </td>
             
 
-            <td class="description last"><p>Item name (e.g. GUIDE TO SELF IMPROVEMENT)</p></td>
+            <td class="description last"><p>short page title</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>link</code></td>
+                <td class="name"><code>text</code></td>
             
 
             <td class="type">
@@ -185,14 +185,14 @@
                 </td>
             
 
-            <td class="description last"><p>The link to the item resource</p></td>
+            <td class="description last"><p>page content</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>emoji</code></td>
+                <td class="name"><code>imagePath</code></td>
             
 
             <td class="type">
@@ -226,7 +226,7 @@
                 </td>
             
 
-            <td class="description last"><p>the emoiji to display with the item</p></td>
+            <td class="description last"><p>optional image path</p></td>
         </tr>
 
     
@@ -267,7 +267,7 @@
     <dt class="implements">Implements:</dt>
     <dd class="implements"><ul>
         
-            <li>Swipeable - Can be cycled to display multiple items</li>
+            <li>Swipeable - Can be cycled to display multiple pages</li>
         
     </ul></dd>
     
@@ -324,12 +324,12 @@
     
         <h4 class="name" id="send">
             
-                <span class="type-signature"><span class="icon green">async</span> </span>send<span class="signature">(client, channel)</span><span class="type-signature"></span>
+                <span class="type-signature"><span class="icon green">async</span> </span>send<span class="signature">(channel)</span><span class="type-signature"></span>
                 
             
             <div class="container-source members">
-                <code><a href="objects_item.js.html">objects/item.js</a></code>,
-                <code><a href="objects_item.js.html#line29">line 29</a></code>
+                <code><a href="objects_page.js.html">objects/page.js</a></code>,
+                <code><a href="objects_page.js.html#line29">line 29</a></code>
             </div>
             
         </h4>
@@ -341,7 +341,7 @@
 
     
     <div class="description">
-        <p>Sends an embedded item in the chat</p>
+        <p>Sends an embedded page in the chat</p>
     </div>
     
 
@@ -377,24 +377,6 @@
 
         <tr>
             
-                <td class="name"><code>client</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
                 <td class="name"><code>channel</code></td>
             
 
@@ -406,7 +388,7 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last"><p>channel to send the message in</p></td>
         </tr>
 
     
@@ -476,12 +458,12 @@
     
         <h4 class="name" id="update">
             
-                <span class="type-signature"></span>update<span class="signature">(embed)</span><span class="type-signature"></span>
+                <span class="type-signature"><span class="icon green">async</span> </span>update<span class="signature">(embed)</span><span class="type-signature"></span>
                 
             
             <div class="container-source members">
-                <code><a href="objects_item.js.html">objects/item.js</a></code>,
-                <code><a href="objects_item.js.html#line40">line 40</a></code>
+                <code><a href="objects_page.js.html">objects/page.js</a></code>,
+                <code><a href="objects_page.js.html#line40">line 40</a></code>
             </div>
             
         </h4>
@@ -540,7 +522,7 @@
 
             
 
-            <td class="description last"><p>embed to update</p></td>
+            <td class="description last"><p>embedded message to update</p></td>
         </tr>
 
     
@@ -569,7 +551,7 @@
 
 
 
-- <p>embed - updated embed</p>
+- <p>data - [embed, files]</p>
 
 
 
@@ -644,7 +626,7 @@
 <script src="scripts/linenumber.js"></script>
 
     <script>
-        var id = 'Item_sub'.replace(/"/g, '_');
+        var id = 'Page_sub'.replace(/"/g, '_');
         var selectedApi = document.getElementById(id); // do not use jquery selector
         var $selectedApi = $(selectedApi);
 
