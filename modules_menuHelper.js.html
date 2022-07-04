@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Source: objects/challenge.js | Source: objects/challenge.js</title>
+    <title>Source: modules/menuHelper.js | Source: modules/menuHelper.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -28,7 +28,7 @@
         
     </div>
     <div class="title">
-        <h1><a href="index.html" class="link">Source: objects/challenge.js</a></h1>
+        <h1><a href="index.html" class="link">Source: modules/menuHelper.js</a></h1>
         
     </div>
     <div class="search-container" id="search-container">
@@ -48,89 +48,266 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const {MessageEmbed, MessageAttachment} = require("discord.js");
-const Swipeable = require("./swipeable");
-const {imageToBuffer} = require("../modules/UIHelper");
+            <pre class="prettyprint source linenums"><code>const {MessageActionRow, MessageButton, MessageEmbed} = require("discord.js");
+const {MessageSelectMenu} = require("discord.js");
+
+/** @module createSwipePanel */
 
 /**
- * Challenge Object
- * @implements Swipeable - Can be cycled to display multiple challenges
+ * Create swipeable panel
+ * Adds left/right embedded buttons to a discord message to navigate through a swipeable list
+ * List is cyclic and cycles back to the start
+ * @param msg - embedded message to attach to
+ * @param {User} user - User who sent the message
+ * @param onYes - function to run on "yes" selected
+ * @param onNo - function to run on "no" selected
  */
-class Challenge extends Swipeable {
-  /**
-   * @param id - mongoDB objectID
-   * @param title - title of the challenge
-   * @param goal - The goal description
-   * @param goals - List of goal descriptions
-   * @param {number} xp - The xp to be awarded on completion
-   * @param {?string=} link - The link to the item resource (default: null)
-   * @constructor
-   */
-  constructor(id, title, goal, goals, xp, link=null) {
-    super();
-    this.id = id;
-    this.title = title;
-    this.goal = goal;
-    this.goals = goals;
-    this.xp = xp;
-    this.link = link;
+exports.createYesNoPanel = async function(msg, user, onYes, onNo) {
+  //Add left/right messageButton to message
+  const row = new MessageActionRow()
+    .addComponents(
+      new MessageButton()
+        .setCustomId("yes")
+        .setLabel("YES")
+        .setStyle("PRIMARY"),
+      new MessageButton()
+        .setCustomId("no")
+        .setLabel("NO")
+        .setStyle("PRIMARY"),
+    );
+  msg.edit({components: [row]});
+
+  //Create listener for button events
+  const filter = i => (i.customId === "yes" || i.customId === "no") &amp;&amp; i.user.id === user.id;
+  const collector = msg.createMessageComponentCollector({filter, time: 120000});
+  await new Promise( (resolve, reject) => {
+    collector.on("collect", async i => {
+      await i.deferUpdate();
+      msg.delete();
+      switch (i.customId) {
+        case "yes":
+          await onYes();
+          resolve();
+          break;
+        case "no":
+          await onNo();
+          reject(new Error("\"No\" selected"));
+          break;
+        default:
+          break;
+      }
+    });
+  });
+};
+
+
+/**
+ * Create swipeable panel
+ * Adds left/right embedded buttons to a discord message to navigate through a swipeable list
+ * List is cyclic and cycles back to the start
+ * @param {Client} client - Discord bot client
+ * @param {User} user - User who sent the message
+ * @param {Channel} channel - Discord channel to send to
+ * @param {Swipeable[]} list - List of swipeable objects
+ */
+exports.createSwipePanel = async function(client, user, channel, list) {
+  const msg = await list[0].send(channel);
+  let currentPage = 0;
+
+  //Add left/right messageButton to message
+  const row = new MessageActionRow()
+    .addComponents(
+      new MessageButton()
+        .setCustomId("left")
+        .setLabel("&lt;")
+        .setStyle("PRIMARY"),
+      new MessageButton()
+        .setCustomId("right")
+        .setLabel(">")
+        .setStyle("PRIMARY"),
+    );
+  msg.edit({components: [row]});
+
+  //Create listener for button events
+  const filter = i => (i.customId === "left" || i.customId === "right") &amp;&amp; i.user.id === user.id;
+  const collector = msg.createMessageComponentCollector({filter, time: 120000});
+  collector.on("collect", async i => {
+    await i.deferUpdate();
+    switch (i.customId) {
+      case "left":
+        currentPage--;
+        if (currentPage === -1) currentPage = list.length - 1;
+        break;
+      case "right":
+        currentPage++;
+        if (currentPage === list.length) currentPage = 0;
+        break;
+      default: break;
+    }
+    //update embed
+    const data = await list[currentPage].update(new MessageEmbed(msg.embeds[0]));
+    await msg.removeAttachments();
+    msg.edit({embeds: data[0], files: data[1]});
+  });
+};
+
+
+/**
+ * Create swipeable panel
+ * Adds left/right embedded buttons to a discord message to navigate through the swipeable list
+ * List is cyclic and cycles back to the start
+ * @param {Client} client - Discord bot client
+ * @param {User} user - User who sent the message
+ * @param {Channel} channel - Discord channel
+ * @param {Swipeable[]} list - List of swipeable objects
+ * @param {?{}=} actions - action {name: string, description: string, action: function} map
+ * item as parameter - return value is T/F based on whether this item will be removed or not
+ */
+exports.createLargeSwipePanel = async function(client, user, channel,
+  list, actions = null, refresh=null) {
+  const msg = await list[0].send(channel);
+  let currentPage = 0;
+
+  await update(channel, msg, list, currentPage, actions);
+
+  //Create listener for navigation events
+  const filter = i => (i.customId === "prev"
+    || i.customId === "next"
+    || i.customId === "first"
+    || i.customId === "last") &amp;&amp; i.user.id === user.id;
+
+  const collector = msg.createMessageComponentCollector({filter, time: 120000});
+  collector.on("collect", async i => {
+    if (!i.isButton()) return;
+
+    await i.deferUpdate();
+    switch (i.customId) {
+      case "first":
+        currentPage = 0;
+        break;
+      case "prev":
+        currentPage--;
+        if (currentPage === -1) currentPage = list.length - 1;
+        break;
+      case "next":
+        currentPage++;
+        if (currentPage === list.length) currentPage = 0;
+        break;
+      case "last":
+        currentPage = list.length - 1;
+        if (currentPage === -1) currentPage = list.length - 1;
+        break;
+      default:
+        break;
+    }
+    await update(channel, msg, list, currentPage, actions);
+  });
+
+
+  //Create action listener
+  if (actions == null) return;
+
+  const actionFilter = i => i.user.id === user.id;
+  const actionCollector = msg.createMessageComponentCollector({actionFilter, time: 120000});
+  actionCollector.on("collect", async i => {
+    if (!i.isSelectMenu()) return;
+    await i.deferUpdate();
+
+    //If action found
+    const action = actions.filter((v) => v.name === i.values[0])[0];
+    if (action) {
+      const deleteItem = await action.action(list[currentPage]);
+      //Delete item on action
+      if (deleteItem) {
+        if (refresh) {
+          msg.delete();
+          refresh();
+          return;
+        }
+        const toRemove = list[currentPage];
+        list = list.filter(i => i !== toRemove);
+        //Set page index
+        currentPage = Math.max(currentPage - 1, 0);
+        await update(channel, msg, list, currentPage, actions);
+      }
+    }
+  });
+
+  return msg;
+};
+
+async function update(channel, msg, list, currentPage, actions) {
+  //check for empty list
+  if (list.length === 0) {
+    msg.delete();
+    const embed = new MessageEmbed();
+    embed.setTitle("EMPTY");
+    embed.setDescription("No more items to display");
+    embed.setThumbnail("");
+    channel.send({embeds: [embed]});
+    return;
   }
 
-  /**
-   * Create challenge object from json data
-   * @param data - JSON data for the challenge
-   * @return {Challenge}
-   */
-  static create(data) {
-    return new Challenge(data._id,
-      data.title,
-      data.goal,
-      data.goals,
-      data.xp,
-      data.link);
+  //Add navigation buttons to row
+  const components = [];
+  const row = createRow(currentPage, list.length);
+  components.push(row);
+  if (actions) {
+    components.push(createDropDownBox(actions));
   }
 
-  /**
-   * Sends an embedded challenge to the chat
-   * @param channel
-   */
-  async send(channel) {
-    const data = await this.update(new MessageEmbed());
-
-    return channel.send({ embeds: data[0], files: data[1]});
+  //update embed to show current page
+  const data = await list[currentPage].update(new MessageEmbed(msg.embeds[0]));
+  if (msg.embeds[0].thumbnail.length !== 0) {
+    await msg.removeAttachments();
   }
-
-  /**
-   * Updates properties of embed with values from this class
-   * @param embed - embed to update
-   * @return embed - updated embed
-   */
-  async update(embed) {
-    //Add link if one exists
-    const icon = new MessageAttachment(await this.getIcon(), "icon.png");
-    await embed.setColor("#bd290b");
-    embed.setTitle("```[CHALLENGE]```");
-    embed.setThumbnail("attachment://icon.png");
-    embed.setDescription(this.toString());
-    return [[embed], [icon]];
-  }
-
-  getName() {
-    return this.title;
-  }
-
-  toString() {
-    let link = "";
-    if (this.link) link = `\n**LINK**: [[LINK]](${this.link})`;
-    return "**GOAL:** \n`" + `${this.goals.join("\n")}` + "`" + link + "\n```diff\n"+`+${this.xp}` +"XP```";
-  }
-
-  async getIcon() {
-    return imageToBuffer("icons/challenge.png", 200);
-  }
+  await msg.edit({embeds: data[0], components: components, files: data[1]});
 }
 
-module.exports = Challenge;
+function createRow(currentPage, length) {
+  return new MessageActionRow()
+    .addComponents(
+      new MessageButton()
+        .setCustomId("first")
+        .setLabel("FIRST")
+        .setStyle("PRIMARY"),
+      new MessageButton()
+        .setCustomId("prev")
+        .setLabel("PREV")
+        .setStyle("PRIMARY"),
+      new MessageButton()
+        .setCustomId("current")
+        .setLabel(`${currentPage + 1}/${length}`)
+        .setStyle("SECONDARY")
+        .setDisabled(true),
+      new MessageButton()
+        .setCustomId("next")
+        .setLabel("NEXT")
+        .setStyle("PRIMARY"),
+      new MessageButton()
+        .setCustomId("last")
+        .setLabel("LAST")
+        .setStyle("PRIMARY"),
+    );
+}
+
+function createDropDownBox(actions) {
+  const actionList = actions.map(a => a.name).join("/");
+  return new MessageActionRow().addComponents(
+    new MessageSelectMenu().setCustomId("actions").setPlaceholder(actionList).addOptions(
+      actions.map(
+        action => {
+          return {
+            customId: action.name,
+            label: action.name,
+            description: action.description,
+            value: action.name,
+          };
+        }
+      )
+    )
+  );
+}
 </code></pre>
         </article>
     </section>

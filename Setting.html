@@ -1,10 +1,8 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Source: objects/challenge.js | Source: objects/challenge.js</title>
+    <title>Class: Setting | Class: Setting</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -28,7 +26,7 @@
         
     </div>
     <div class="title">
-        <h1><a href="index.html" class="link">Source: objects/challenge.js</a></h1>
+        <h1><a href="index.html" class="link">Class: Setting</a></h1>
         
     </div>
     <div class="search-container" id="search-container">
@@ -45,95 +43,652 @@
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>const {MessageEmbed, MessageAttachment} = require("discord.js");
-const Swipeable = require("./swipeable");
-const {imageToBuffer} = require("../modules/UIHelper");
+        <h2><span class="attribs"><span class="type-signature"></span></span>Setting<span class="signature">(title, description, components, filter, onComplete)</span><span class="type-signature"></span></h2>
+        
+            <div class="class-description"><p>Setting object to display the setting and perform the action</p></div>
+        
+    
+</header>
 
-/**
- * Challenge Object
- * @implements Swipeable - Can be cycled to display multiple challenges
- */
-class Challenge extends Swipeable {
-  /**
-   * @param id - mongoDB objectID
-   * @param title - title of the challenge
-   * @param goal - The goal description
-   * @param goals - List of goal descriptions
-   * @param {number} xp - The xp to be awarded on completion
-   * @param {?string=} link - The link to the item resource (default: null)
-   * @constructor
-   */
-  constructor(id, title, goal, goals, xp, link=null) {
-    super();
-    this.id = id;
-    this.title = title;
-    this.goal = goal;
-    this.goals = goals;
-    this.xp = xp;
-    this.link = link;
-  }
+<article>
+    
+        <div class="container-overview">
+        
+            
 
-  /**
-   * Create challenge object from json data
-   * @param data - JSON data for the challenge
-   * @return {Challenge}
-   */
-  static create(data) {
-    return new Challenge(data._id,
-      data.title,
-      data.goal,
-      data.goals,
-      data.xp,
-      data.link);
-  }
+<dt>
+    
+        <h4 class="name" id="Setting">
+            
+                new <span class="type-signature"></span>Setting<span class="signature">(title, description, components, filter, onComplete)</span><span class="type-signature"></span>
+                
+            
+            <div class="container-source members">
+                <code><a href="objects_setting.js.html">objects/setting.js</a></code>,
+                <code><a href="objects_setting.js.html#line7">line 7</a></code>
+            </div>
+            
+        </h4>
 
-  /**
-   * Sends an embedded challenge to the chat
-   * @param channel
-   */
-  async send(channel) {
-    const data = await this.update(new MessageEmbed());
+        
+    
+</dt>
+<dd>
 
-    return channel.send({ embeds: data[0], files: data[1]});
-  }
+    
+    <div class="description">
+        <p>Skill constructor</p>
+    </div>
+    
 
-  /**
-   * Updates properties of embed with values from this class
-   * @param embed - embed to update
-   * @return embed - updated embed
-   */
-  async update(embed) {
-    //Add link if one exists
-    const icon = new MessageAttachment(await this.getIcon(), "icon.png");
-    await embed.setColor("#bd290b");
-    embed.setTitle("```[CHALLENGE]```");
-    embed.setThumbnail("attachment://icon.png");
-    embed.setDescription(this.toString());
-    return [[embed], [icon]];
-  }
+    
 
-  getName() {
-    return this.title;
-  }
+    
 
-  toString() {
-    let link = "";
-    if (this.link) link = `\n**LINK**: [[LINK]](${this.link})`;
-    return "**GOAL:** \n`" + `${this.goals.join("\n")}` + "`" + link + "\n```diff\n"+`+${this.xp}` +"XP```";
-  }
+    
 
-  async getIcon() {
-    return imageToBuffer("icons/challenge.png", 200);
-  }
-}
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
 
-module.exports = Challenge;
-</code></pre>
-        </article>
-    </section>
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>title</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>title</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>description</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>components</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>filter</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onComplete</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+        
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+                
+
+<dt>
+    
+        <h4 class="name" id="sendInitMessage">
+            
+                <span class="type-signature"><span class="icon green">async</span> </span>sendInitMessage<span class="signature">(message, channel, onFailure, callback)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span>
+                
+            
+            <div class="container-source members">
+                <code><a href="objects_setting.js.html">objects/setting.js</a></code>,
+                <code><a href="objects_setting.js.html#line33">line 33</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Sends title message to check for DMs being disabled</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>message</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>User message</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>channel</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>channel to send error in</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onFailure</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>onFailure case when user has DMs disabled</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>callback to execute on completion</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">Promise.&lt;void></span>
+
+
+
+
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id="start">
+            
+                <span class="type-signature"><span class="icon green">async</span> </span>start<span class="signature">(oldMessage, channel, userSettings, settings)</span><span class="type-signature"></span>
+                
+            
+            <div class="container-source members">
+                <code><a href="objects_setting.js.html">objects/setting.js</a></code>,
+                <code><a href="objects_setting.js.html#line71">line 71</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Sends an embedded skill in the chat</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>oldMessage</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>previous message</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>channel</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>channel to send the message in</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>userSettings</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>list of current user settings</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>settings</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>list of setting objects</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            </dl>
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
@@ -150,7 +705,7 @@ module.exports = Challenge;
 <script src="scripts/linenumber.js"></script>
 
     <script>
-        var id = '_sub'.replace(/"/g, '_');
+        var id = 'Setting_sub'.replace(/"/g, '_');
         var selectedApi = document.getElementById(id); // do not use jquery selector
         var $selectedApi = $(selectedApi);
 
