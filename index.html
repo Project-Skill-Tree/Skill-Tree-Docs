@@ -85,8 +85,18 @@ for more info.</p>
 <p>Once finished:</p>
 <ul>
 <li>In the folder from where you ran the git command, run <code>npm install</code>, which will install the required packages.</li>
-<li>Rename <code>config.js.example</code> to <code>config.js</code>, and give it the required intents and any partials you may require.</li>
-<li>Rename <code>.env-example</code> to <code>.env</code> and put in your bot token in it and save.</li>
+<li>Make sure you're using node.js <code>v16.14.2</code></li>
+<li>Rename <code>.env-example</code> to <code>.env</code> and put each key inside as follows
+<ul>
+<li>DISCORD_TOKEN - Your bot token</li>
+<li>OWNER - Your discord ID</li>
+<li>API_URL - The URL of your API instance (for example: http://localhost:3000/v1, must include /v1/ at the end)</li>
+<li>API_KEY - The API key (Can be anything, shared between bot and API)</li>
+<li>GOOGLE_API_KEY - Google maps API key</li>
+</ul>
+</li>
+<li>Set up the <a href="https://github.com/Project-Skill-Tree/Skill-Tree-API">API</a></li>
+<li>Set up the <a href="https://github.com/Project-Skill-Tree/Skill-Tree-Editor">editor</a></li>
 </ul>
 <h2>Starting the bot</h2>
 <p>To start the bot, in the command prompt, run the following command:
